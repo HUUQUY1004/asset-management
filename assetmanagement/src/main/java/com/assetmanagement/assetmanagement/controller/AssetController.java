@@ -42,6 +42,11 @@ public class AssetController {
         Asset savedAsset = assetService.createAsset(asset);
         return ResponseEntity.ok(savedAsset);
     }
+
+    @GetMapping("get-all-asset")
+    public ResponseEntity<List<Asset>> getAllAsset(){
+        return ResponseEntity.ok(assetRepository.getAll());
+    }
     @PutMapping("/{id}")
     public ResponseEntity<Asset> updateAsset(
             @PathVariable Long id,
