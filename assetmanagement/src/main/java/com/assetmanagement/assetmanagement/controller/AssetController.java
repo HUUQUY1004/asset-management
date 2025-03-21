@@ -1,5 +1,6 @@
 package com.assetmanagement.assetmanagement.controller;
 
+import com.assetmanagement.assetmanagement.dto.UpdateAssetRequets;
 import com.assetmanagement.assetmanagement.entity.Asset;
 import com.assetmanagement.assetmanagement.repository.AssetRepository;
 import com.assetmanagement.assetmanagement.service.AssetService;
@@ -40,6 +41,13 @@ public class AssetController {
         asset.setLastUpdated(LocalDateTime.now());
         Asset savedAsset = assetService.createAsset(asset);
         return ResponseEntity.ok(savedAsset);
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<Asset> updateAsset(
+            @PathVariable Long id,
+            @RequestBody UpdateAssetRequets dto) {
+        Asset updatedAsset = assetService.updateAsset(id, dto);
+        return ResponseEntity.ok(updatedAsset);
     }
 
 
