@@ -9,9 +9,15 @@ function App() {
       <Routes>
         {routes.map((item, index) => {
           const Page = item.Component;
-          return <Route key={index} path={item.path} element={<Page />} />;
+          return <Route key={index} path={item.path} element={
+            <Layout>
+                <Page />
+            </Layout>
+          } />;
         })}
       </Routes>
+
+
     </BrowserRouter>
   );
 }
