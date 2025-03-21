@@ -30,6 +30,22 @@ public class Asset {
         return isDeleted;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
     public void setDeleted(boolean deleted) {
         isDeleted = deleted;
     }
@@ -37,7 +53,9 @@ public class Asset {
     public Long getId() {
         return id;
     }
-
+    public String getName() {
+        return name;
+    }
     public void setId(Long id) {
         this.id = id;
     }
