@@ -24,7 +24,7 @@ public class AssetController {
     public ResponseEntity<List<Asset>> getAssetsByStatus(@PathVariable String status) {
         return ResponseEntity.ok(assetService.getAssetsByStatus(status));
     }
-    @PostMapping("/{assetId}")
+    @PostMapping("delete/{assetId}")
     public ResponseEntity<String> deletedAsset(@PathVariable("assetId") Long assetId) {
         assetService.deleteAsset(assetId);
         return ResponseEntity.ok("Deleted asset " + assetId);
