@@ -12,6 +12,7 @@ import java.util.List;
 public class AssetService {
 
     private final AssetRepository assetRepository;
+    //command
 
     @Autowired
     public AssetService(AssetRepository assetRepository) {
