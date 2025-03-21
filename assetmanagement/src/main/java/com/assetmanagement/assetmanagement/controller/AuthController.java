@@ -1,5 +1,6 @@
 package com.assetmanagement.assetmanagement.controller;
 
+import com.assetmanagement.assetmanagement.dto.LoginRequest;
 import com.assetmanagement.assetmanagement.dto.RegisterRequest;
 import com.assetmanagement.assetmanagement.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("api/auth")
 public class AuthController {
     private final AuthService authService;
 
@@ -19,6 +20,12 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
         String response = authService.register(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
+        String response = authService.login(request);
         return ResponseEntity.ok(response);
     }
 }

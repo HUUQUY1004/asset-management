@@ -7,6 +7,7 @@ import com.assetmanagement.assetmanagement.service.AssetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -27,6 +28,7 @@ public class AssetController {
         return ResponseEntity.ok(assetService.getAssetsByStatus(status));
     }
     @PostMapping("delete/{assetId}")
+    @PreAuthorize("hasAuthority('admin')")
     public ResponseEntity<String> deletedAsset(@PathVariable("assetId") Long assetId) {
         assetService.deleteAsset(assetId);
         return ResponseEntity.ok("Deleted asset " + assetId);
@@ -41,6 +43,11 @@ public class AssetController {
         asset.setLastUpdated(LocalDateTime.now());
         Asset savedAsset = assetService.createAsset(asset);
         return ResponseEntity.ok(savedAsset);
+    }
+
+    @GetMapping("get-all-asset")
+    public ResponseEntity<List<Asset>> getAllAsset(){
+        return ResponseEntity.ok(assetRepository.getAll());
     }
     @PutMapping("/{id}")
     public ResponseEntity<Asset> updateAsset(
