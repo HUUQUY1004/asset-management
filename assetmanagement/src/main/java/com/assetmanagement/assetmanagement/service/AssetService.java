@@ -1,34 +1,37 @@
 package com.assetmanagement.assetmanagement.service;
 
-import com.assetmanagement.assetmanagement.dto.UpdateAssetRequets;
 import com.assetmanagement.assetmanagement.entity.Asset;
 import com.assetmanagement.assetmanagement.repository.AssetRepository;
-import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@Slf4j
 public class AssetService {
-    AssetRepository assetRepository;
-    public Asset updateAsset(Long assetId, UpdateAssetRequets request) {
-        Optional<Asset> assetOptional = assetRepository.findById(assetId);
-        if (assetOptional.isPresent()) {
-            Asset asset = assetOptional.get();
-            asset.setName(request.getName());
-            asset.setStatus(request.getStatus());
-            asset.setLocation(request.getLocation());
-            asset.setQuantity(request.getQuantity());
-            asset.setLastUpdated(LocalDateTime.now()); // Tự động cập nhật thời gian
-            return assetRepository.save(asset);
-        } else {
-            throw new RuntimeException("Asset not found with ID: " + assetId);
-        }}
+
+    @Autowired
+    private AssetRepository assetRepository;
+
+
+
+    public void deleteAsset(Long id) {
+        Asset asset = assetRepository.findById(id).orElseThrow(() -> new RuntimeException("Asset not found"));
+        asset.setDeleted(true);
+        assetRepository.save(asset);
+    }
+    public Asset createAsset(Asset asset) {
+        asset.setLastUpdated(LocalDateTime.now());
+        return assetRepository.save(asset);
+    }
+
+    //user story 4
+    public List<Asset> getAssetsByStatus(String status) {
+        return assetRepository.findByStatus(status);
+    }
 }
+
+

@@ -25,4 +25,12 @@ public class UserAccount {
     private String status; // E.g., "active", "locked"
     
     // Getters and Setters
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }
