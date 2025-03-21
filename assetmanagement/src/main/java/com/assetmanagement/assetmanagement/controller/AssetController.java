@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -29,10 +30,17 @@ public class AssetController {
         assetService.deleteAsset(assetId);
         return ResponseEntity.ok("Deleted asset " + assetId);
     }
-    @PostMapping("/create")
-    public ResponseEntity<Asset> createAsset(@RequestBody Asset asset) {
-        Asset newAsset = assetService.createAsset(asset);
-        return ResponseEntity.ok(newAsset);
+
+    //user story 1
+    @PostMapping
+    public ResponseEntity<?> createAsset(@RequestBody Asset asset) {
+        if (asset.getName() == null || asset.getName().trim().isEmpty()) {
+            return ResponseEntity.badRequest().body("{\"message\": \"Tên tài sản không được để trống\"}");
+        }
+        asset.setLastUpdated(LocalDateTime.now());
+        Asset savedAsset = assetService.createAsset(asset);
+        return ResponseEntity.ok(savedAsset);
     }
+
 
 }
