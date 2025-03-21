@@ -2,6 +2,7 @@ import CreateAsset from "./pages/asset/createAsset";
 import EditAsset from "./pages/asset/editAsset";
 import ShowAsset from "./pages/asset/showAsset";
 import CreateAccount from "./pages/account/createAccount";
+import Login from "./pages/login/login";
 import Home from "./pages/home/home";
 import ShowAccount from "./pages/account/showAccount";
 
@@ -30,4 +31,8 @@ export const routes = [
     path: "/show-account",
     Component: ShowAccount,
   },
+  {
+    path: "/login",
+    Component: Login,
+  }
 ];
