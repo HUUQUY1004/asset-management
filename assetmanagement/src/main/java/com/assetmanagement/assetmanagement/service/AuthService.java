@@ -54,7 +54,9 @@ public class AuthService {
             );
             var claims = new HashMap<String, Object>();
             var user = (UserAccount) auth.getPrincipal();
+            System.out.println("=================================");
             var jwtToken = jwtService.generateToken(claims, user);
+            System.out.println("=================================> " +jwtToken);
             return jwtToken;
         } catch (Exception ex) {
             throw new RuntimeException(ex.getMessage());
