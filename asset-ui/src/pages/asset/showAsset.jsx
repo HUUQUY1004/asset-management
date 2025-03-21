@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import "./showAsset.css";
 
 function ShowAsset() {
   const [assets, setAssets] = useState([]);
@@ -28,13 +29,13 @@ function ShowAsset() {
   };
 
   return (
-    <div style={{ maxWidth: "600px", margin: "0 auto", padding: "20px" }}>
-      <h2>Danh sách tài sản</h2>
+    <div className="container">
+      <h2 className="title">Danh sách tài sản</h2>
 
       {/* Dropdown lọc theo trạng thái */}
-      <div>
-        <label>Lọc theo trạng thái: </label>
-        <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+      <div className="filter-container">
+        <label className="filter-label">Lọc theo trạng thái: </label>
+        <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="filter-select">
           <option value="all">Tất cả</option>
           <option value="in use">Đang sử dụng</option>
           <option value="maintenance">Bảo trì</option>
@@ -43,13 +44,13 @@ function ShowAsset() {
       </div>
 
       {/* Hiển thị lỗi nếu có */}
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <p className="error-message">{error}</p>}
 
       {/* Hiển thị danh sách tài sản */}
       {loading ? (
-        <p>Đang tải...</p>
+        <p className="loading-message">Đang tải...</p>
       ) : (
-        <table border="1" style={{ width: "100%", marginTop: "10px", textAlign: "left" }}>
+        <table className="asset-table">
           <thead>
             <tr>
               <th>Tên</th>
@@ -70,7 +71,7 @@ function ShowAsset() {
               ))
             ) : (
               <tr>
-                <td colSpan="4" style={{ textAlign: "center" }}>Không có tài sản nào</td>
+                <td colSpan="4" className="no-asset">Không có tài sản nào</td>
               </tr>
             )}
           </tbody>
