@@ -19,7 +19,7 @@ public class AssetController {
     @Autowired
     private  AssetRepository assetRepository;
 
-
+    //user story 4
     @GetMapping("/status/{status}")
     public ResponseEntity<List<Asset>> getAssetsByStatus(@PathVariable String status) {
         return ResponseEntity.ok(assetService.getAssetsByStatus(status));

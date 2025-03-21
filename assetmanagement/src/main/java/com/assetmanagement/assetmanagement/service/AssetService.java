@@ -12,8 +12,11 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class AssetService {
+
     @Autowired
     private AssetRepository assetRepository;
+
+
 
     public void deleteAsset(Long id) {
         Asset asset = assetRepository.findById(id).orElseThrow(() -> new RuntimeException("Asset not found"));
@@ -25,7 +28,10 @@ public class AssetService {
         return assetRepository.save(asset);
     }
 
+    //user story 4
     public List<Asset> getAssetsByStatus(String status) {
         return assetRepository.findByStatus(status);
     }
 }
+
+
