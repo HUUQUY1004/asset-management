@@ -2,66 +2,111 @@ import { useState } from "react";
 import axios from "axios";
 import "./createAsset.css"; 
 
-function CreateAsset() {
-  const [name, setName] = useState("");
-  const [status, setStatus] = useState("in use");
-  const [location, setLocation] = useState("");
-  const [quantity, setQuantity] = useState(1);
-  const [message, setMessage] = useState("");
+const CreateAsset = () => {
+    const [formData, setFormData] = useState({
+        name: "",
+        status: "available",
+        location: "",
+        quantity: 1,
+    });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setMessage("");
+    const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
 
-    const newAsset = { name, status, location, quantity };
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
 
-    try {
-      await axios.post("http://localhost:8080/api/assets", newAsset);
-      setMessage("✅ Tạo tài sản thành công!");
-      setName("");
-      setStatus("in use");
-      setLocation("");
-      setQuantity(1);
-    } catch (error) {
-      setMessage("❌ Lỗi khi tạo tài sản. Vui lòng thử lại!");
-    }
-  };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError("");
+        setSuccess("");
 
-  return (
-    <div className="container">
-      <h2 className="title">Tạo tài sản mới</h2>
+        try {
+            const response = await fetch("http://localhost:8080/manager/asset/create", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    ...formData,
+                    quantity: parseInt(formData.quantity, 10),
+                }),
+            });
 
-      {message && <p className={`message ${message.includes("❌") ? "error" : "success"}`}>{message}</p>}
+            if (!response.ok) {
+                throw new Error("Tạo tài sản thất bại! Vui lòng kiểm tra lại thông tin.");
+            }
 
-      <form onSubmit={handleSubmit} className="form">
-        <div className="form-group">
-          <label>Tên tài sản:</label>
-          <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+            setSuccess("Tạo tài sản thành công!");
+            setFormData({ name: "", status: "available", location: "", quantity: 1 });
+        } catch (err) {
+            setError(err.message);
+        }
+    };
+
+    return (
+        <div className="flex items-center justify-center h-screen bg-gray-100">
+            <div className="bg-white p-8 rounded-lg shadow-lg w-96">
+                <h2 className="text-2xl font-bold mb-4 text-center">Tạo Tài Sản</h2>
+                {error && <p className="text-red-500 text-center">{error}</p>}
+                {success && <p className="text-green-500 text-center">{success}</p>}
+                <form onSubmit={handleSubmit} className="space-y-4">
+                    <div>
+                        <label className="block text-gray-700">Tên tài sản</label>
+                        <input
+                            type="text"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleChange}
+                            className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-gray-700">Trạng thái</label>
+                        <select
+                            name="status"
+                            value={formData.status}
+                            onChange={handleChange}
+                            className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                            <option value="available">Có sẵn</option>
+                            <option value="in use">Đang sử dụng</option>
+                            <option value="maintenance">Bảo trì</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label className="block text-gray-700">Vị trí</label>
+                        <input
+                            type="text"
+                            name="location"
+                            value={formData.location}
+                            onChange={handleChange}
+                            className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-gray-700">Số lượng</label>
+                        <input
+                            type="number"
+                            name="quantity"
+                            value={formData.quantity}
+                            onChange={handleChange}
+                            min="1"
+                            className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            required
+                        />
+                    </div>
+                    <button
+                        type="submit"
+                        className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-200"
+                    >
+                        Tạo tài sản
+                    </button>
+                </form>
+            </div>
         </div>
-
-        <div className="form-group">
-          <label>Trạng thái:</label>
-          <select value={status} onChange={(e) => setStatus(e.target.value)}>
-            <option value="in use">Đang sử dụng</option>
-            <option value="maintenance">Bảo trì</option>
-            <option value="disposed">Thanh lý</option>
-          </select>
-        </div>
-
-        <div className="form-group">
-          <label>Vị trí:</label>
-          <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} required />
-        </div>
-
-        <div className="form-group">
-          <label>Số lượng:</label>
-          <input type="number" value={quantity} min="1" onChange={(e) => setQuantity(e.target.value)} required />
-        </div>
-
-        <button type="submit" className="submit-btn">Tạo mới</button>
-      </form>
-    </div>
-  );
-}
+    );
+};
 
 export default CreateAsset;

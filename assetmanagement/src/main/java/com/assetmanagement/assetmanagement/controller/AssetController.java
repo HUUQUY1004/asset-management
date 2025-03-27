@@ -35,7 +35,7 @@ public class AssetController {
     }
 
     //user story 1
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<?> createAsset(@RequestBody Asset asset) {
         if (asset.getName() == null || asset.getName().trim().isEmpty()) {
             return ResponseEntity.badRequest().body("{\"message\": \"Tên tài sản không được để trống\"}");
