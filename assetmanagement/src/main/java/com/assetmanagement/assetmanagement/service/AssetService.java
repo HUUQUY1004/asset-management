@@ -86,6 +86,9 @@ public class AssetService {
         return updatedAsset;
     }
 
+    public List<Asset> getAllAssets() {
+        return assetRepository.findAll();
+    }
 
 
 }

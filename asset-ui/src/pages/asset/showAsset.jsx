@@ -2,83 +2,91 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import "./showAsset.css";
 
-function ShowAsset() {
-  const [assets, setAssets] = useState([]);
-  const [statusFilter, setStatusFilter] = useState("all");
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
 
-  useEffect(() => {
-    fetchAssets();
-  }, [statusFilter]);
+const ShowAsset = () => {
+    const [assets, setAssets] = useState([]);
+    const [filteredAssets, setFilteredAssets] = useState([]);
+    const [filterStatus, setFilterStatus] = useState("");
 
-  const fetchAssets = async () => {
-    setLoading(true);
-    setError("");
+    useEffect(() => {
+      fetch("http://localhost:5000/manager/asset/list")
 
-    try {
-      const response = await axios.get("http://localhost:5000/api/assets", {
-        params: { status: statusFilter !== "all" ? statusFilter : undefined },
-      });
-      setAssets(response.data);
-    } catch (err) {
-      setError("Lỗi khi tải dữ liệu. Vui lòng thử lại!");
-    } finally {
-      setLoading(false);
-    }
+        // fetch("http://localhost:8080/manager/asset/list")
+            .then(response => response.json())
+            .then(data => {
+                setAssets(data);
+                setFilteredAssets(data);
+            })
+            .catch(error => console.error("Lỗi khi lấy danh sách tài sản:", error));
+    }, []);
+
+    // Xử lý lọc theo trạng thái
+    const filterMap = {
+      "Đang sử dụng": "in_use",
+      "Bảo trì": "maintenance",
+      "Có sẵn": "available"
   };
+  
+  const handleFilterChange = (status) => {
+      setFilterStatus(status);
+      if (status === "") {
+          setFilteredAssets(assets);
+      } else {
+          setFilteredAssets(assets.filter(asset => asset.status === filterMap[status]));
+      }
+  };
+  
 
-  return (
-    <div className="container">
-      <h2 className="title">Danh sách tài sản</h2>
+    return (
+        <div className="p-6">
+            <h2 className="text-2xl font-bold mb-4">Danh Sách Tài Sản</h2>
 
-      {/* Dropdown lọc theo trạng thái */}
-      <div className="filter-container">
-        <label className="filter-label">Lọc theo trạng thái: </label>
-        <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="filter-select">
-          <option value="all">Tất cả</option>
-          <option value="in use">Đang sử dụng</option>
-          <option value="maintenance">Bảo trì</option>
-          <option value="disposed">Thanh lý</option>
-        </select>
-      </div>
+            {/* Bộ lọc trạng thái */}
+            <div className="mb-4">
+                <label className="mr-2">Lọc theo trạng thái:</label>
+                <select
+                    value={filterStatus}
+                    onChange={(e) => handleFilterChange(e.target.value)}
+                    className="p-2 border rounded-lg"
+                >
+                    <option value="">Tất cả</option>
+                    <option value="Đang sử dụng">Đang sử dụng</option>
+                    <option value="Bảo trì">Bảo trì</option>
+                    <option value="Có sẵn">Có sẵn</option>
+                </select>
+            </div>
 
-      {/* Hiển thị lỗi nếu có */}
-      {error && <p className="error-message">{error}</p>}
-
-      {/* Hiển thị danh sách tài sản */}
-      {loading ? (
-        <p className="loading-message">Đang tải...</p>
-      ) : (
-        <table className="asset-table">
-          <thead>
-            <tr>
-              <th>Tên</th>
-              <th>Trạng thái</th>
-              <th>Vị trí</th>
-              <th>Số lượng</th>
-            </tr>
-          </thead>
-          <tbody>
-            {assets.length > 0 ? (
-              assets.map((asset) => (
-                <tr key={asset.id}>
-                  <td>{asset.name}</td>
-                  <td>{asset.status}</td>
-                  <td>{asset.location}</td>
-                  <td>{asset.quantity}</td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="4" className="no-asset">Không có tài sản nào</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      )}
-    </div>
-  );
-}
+            {/* Bảng hiển thị tài sản */}
+            <table className="w-full border-collapse border border-gray-300">
+                <thead>
+                    <tr className="bg-gray-100">
+                        <th className="border p-2">Tên</th>
+                        <th className="border p-2">Vị trí</th>
+                        <th className="border p-2">Trạng thái</th>
+                        <th className="border p-2">Số lượng</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {filteredAssets.length > 0 ? (
+                        filteredAssets.map((asset) => (
+                            <tr key={asset.id} className="text-center">
+                                <td className="border p-2">{asset.name}</td>
+                                <td className="border p-2">{asset.location}</td>
+                                <td className="border p-2">{asset.status}</td>
+                                <td className="border p-2">{asset.quantity}</td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="4" className="border p-2 text-center text-gray-500">
+                                Không có dữ liệu
+                            </td>
+                        </tr>
+                    )}
+                </tbody>
+            </table>
+        </div>
+    );
+};
 
 export default ShowAsset;

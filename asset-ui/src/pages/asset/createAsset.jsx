@@ -23,7 +23,9 @@ const CreateAsset = () => {
         setSuccess("");
 
         try {
-            const response = await fetch("http://localhost:8080/manager/asset/create", {
+          const response = await fetch("http://localhost:5000/manager/asset/create", {
+
+            // const response = await fetch("http://localhost:8080/manager/asset/create", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

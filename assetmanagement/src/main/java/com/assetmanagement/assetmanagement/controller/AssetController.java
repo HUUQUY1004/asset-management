@@ -23,7 +23,7 @@ public class AssetController {
     private  AssetRepository assetRepository;
 
     //user story 4
-    @GetMapping("/status/{status}")
+    @GetMapping("/show/{status}")
     public ResponseEntity<List<Asset>> getAssetsByStatus(@PathVariable String status) {
         return ResponseEntity.ok(assetService.getAssetsByStatus(status));
     }
@@ -45,7 +45,7 @@ public class AssetController {
         return ResponseEntity.ok(savedAsset);
     }
 
-    @GetMapping("get-all-asset")
+    @GetMapping("/get-all-asset")
     public ResponseEntity<List<Asset>> getAllAsset(){
         return ResponseEntity.ok(assetRepository.getAll());
     }
@@ -53,6 +53,14 @@ public class AssetController {
     public ResponseEntity<?> updateAsset(@PathVariable Long id, @RequestBody UpdateAssetRequets dto) {
         Asset updatedAsset = assetService.updateAsset(id, dto);
         return ResponseEntity.ok(updatedAsset);
+    }
+
+
+
+    @GetMapping("/list")
+    public ResponseEntity<List<Asset>> getAllAssets() {
+        List<Asset> assets = assetService.getAllAssets();
+        return ResponseEntity.ok(assets);
     }
 
 
