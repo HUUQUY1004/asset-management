@@ -5,6 +5,8 @@ import com.assetmanagement.assetmanagement.repository.UserAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserAccountService {
 
@@ -23,5 +25,8 @@ public class UserAccountService {
         UserAccount user = userAccountRepository.findById(userId).orElseThrow(() -> new RuntimeException("Người dùng không tồn tại"));
         user.setStatus("hoạt động");
         return userAccountRepository.save(user);
+    }
+    public List<UserAccount> getAllUserAccounts() {
+        return userAccountRepository.findAll();
     }
 }

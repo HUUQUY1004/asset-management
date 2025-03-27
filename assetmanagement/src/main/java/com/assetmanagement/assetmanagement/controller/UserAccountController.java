@@ -5,10 +5,9 @@ import com.assetmanagement.assetmanagement.service.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/user-accounts")
@@ -29,5 +28,10 @@ public class UserAccountController {
     public ResponseEntity<UserAccount> unlockUserAccount(@PathVariable Long id) {
         UserAccount unlockedUser = userAccountService.unlockUserAccount(id);
         return new ResponseEntity<>(unlockedUser, HttpStatus.OK);
+    }
+    @GetMapping("/getAllUserStatus")
+    public ResponseEntity<List<UserAccount>> getAllUserStatus() {
+        List<UserAccount> listUs = userAccountService.getAllUserAccounts();
+        return new ResponseEntity<>(listUs, HttpStatus.OK);
     }
 }
