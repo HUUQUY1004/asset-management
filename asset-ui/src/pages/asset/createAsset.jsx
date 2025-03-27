@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import "./createAsset.css"; 
 
 function CreateAsset() {
   const [name, setName] = useState("");
@@ -15,29 +16,30 @@ function CreateAsset() {
     const newAsset = { name, status, location, quantity };
 
     try {
-      const response = await axios.post("http://localhost:8080/api/assets", newAsset);
-      setMessage("Tạo tài sản thành công!");
+      await axios.post("http://localhost:8080/api/assets", newAsset);
+      setMessage("✅ Tạo tài sản thành công!");
       setName("");
       setStatus("in use");
       setLocation("");
       setQuantity(1);
     } catch (error) {
-      setMessage("Lỗi khi tạo tài sản. Vui lòng thử lại!");
+      setMessage("❌ Lỗi khi tạo tài sản. Vui lòng thử lại!");
     }
   };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "0 auto", padding: "20px", border: "1px solid #ccc", borderRadius: "10px" }}>
-      <h2>Tạo tài sản mới</h2>
-      {message && <p style={{ color: message.includes("Lỗi") ? "red" : "green" }}>{message}</p>}
+    <div className="container">
+      <h2 className="title">Tạo tài sản mới</h2>
 
-      <form onSubmit={handleSubmit}>
-        <div>
+      {message && <p className={`message ${message.includes("❌") ? "error" : "success"}`}>{message}</p>}
+
+      <form onSubmit={handleSubmit} className="form">
+        <div className="form-group">
           <label>Tên tài sản:</label>
           <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
         </div>
 
-        <div>
+        <div className="form-group">
           <label>Trạng thái:</label>
           <select value={status} onChange={(e) => setStatus(e.target.value)}>
             <option value="in use">Đang sử dụng</option>
@@ -46,17 +48,17 @@ function CreateAsset() {
           </select>
         </div>
 
-        <div>
+        <div className="form-group">
           <label>Vị trí:</label>
           <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} required />
         </div>
 
-        <div>
+        <div className="form-group">
           <label>Số lượng:</label>
           <input type="number" value={quantity} min="1" onChange={(e) => setQuantity(e.target.value)} required />
         </div>
 
-        <button type="submit">Tạo mới</button>
+        <button type="submit" className="submit-btn">Tạo mới</button>
       </form>
     </div>
   );
