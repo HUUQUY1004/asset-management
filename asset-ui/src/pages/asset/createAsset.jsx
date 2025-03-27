@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import "./createAsset.css"; 
+import { config } from "../../config";
 
 function CreateAsset() {
   const [name, setName] = useState("");
@@ -14,9 +15,12 @@ function CreateAsset() {
     setMessage("");
 
     const newAsset = { name, status, location, quantity };
-
+    console.log(newAsset);
+    
     try {
-      await axios.post("http://localhost:8080/api/assets", newAsset);
+      const {data} =  await axios.post("http://localhost:5000/manager/asset/create", newAsset,config);
+      console.log(data);
+      
       setMessage("✅ Tạo tài sản thành công!");
       setName("");
       setStatus("in use");
