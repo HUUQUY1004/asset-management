@@ -89,6 +89,11 @@ public class AssetService {
     public List<Asset> getAllAssets() {
         return assetRepository.findAll();
     }
-
+    public Asset verifyAsset(Long id) {
+        return assetRepository.findById(id).map(asset -> {
+            asset.setVerified(true);
+            return assetRepository.save(asset);
+        }).orElseThrow(() -> new RuntimeException("Asset not found"));
+    }
 
 }

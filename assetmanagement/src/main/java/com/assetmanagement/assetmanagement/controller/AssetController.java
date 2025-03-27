@@ -63,6 +63,9 @@ public class AssetController {
         return ResponseEntity.ok(assets);
     }
 
-
+    @PutMapping("/verify/{id}")
+    public ResponseEntity<Asset> verifyAsset(@PathVariable Long id) {
+        return ResponseEntity.ok(assetService.verifyAsset(id));
+    }
 
 }
