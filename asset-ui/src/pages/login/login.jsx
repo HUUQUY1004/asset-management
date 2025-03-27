@@ -71,13 +71,13 @@ const Login = () => {
                         type="submit"
                         className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-200"
                     >
-                        Đăng Ký
+                        Đăng Nhập
                     </button>
                 </form>
                 <p className="text-gray-600 text-sm mt-4 text-center">
-                    Đã có tài khoản?{" "}
+                    Chưa có tài khoản?{" "}
                     <Link href="/login" className="text-blue-500 hover:underline">
-                        Đăng nhập ngay
+                        Đăng ký ngay
                     </Link>
                 </p>
             </div>
