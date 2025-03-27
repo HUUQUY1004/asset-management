@@ -30,6 +30,18 @@ public class Asset {
         return isDeleted;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
