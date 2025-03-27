@@ -1,4 +1,6 @@
+import axios from "axios";
 import { useState } from "react";
+import {useNavigate} from "react-router-dom";
 
 const CreateAccount = () => {
     const [formData, setFormData] = useState({
@@ -7,16 +9,15 @@ const CreateAccount = () => {
     });
 
     const [error, setError] = useState("");
-    const [success, setSuccess] = useState("");
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
-        setSuccess("");
 
         try {
             const response = await fetch("http://localhost:5000/api/auth/register", {
@@ -29,8 +30,8 @@ const CreateAccount = () => {
                 throw new Error("Đăng ký thất bại! Username có thể đã tồn tại.");
             }
 
-            setSuccess("Đăng ký thành công!");
-            setFormData({ username: "", password: "" });
+            navigate("/login");
+
         } catch (err) {
             setError(err.message);
         }
@@ -41,7 +42,7 @@ const CreateAccount = () => {
             <div className="bg-white p-8 rounded-lg shadow-lg w-96">
                 <h2 className="text-2xl font-bold mb-4 text-center">Đăng Ký</h2>
                 {error && <p className="text-red-500 text-center">{error}</p>}
-                {success && <p className="text-green-500 text-center">{success}</p>}
+                {/*{success && <p className="text-green-500 text-center">{success}</p>}*/}
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
                         <label className="block text-gray-700">Username</label>
