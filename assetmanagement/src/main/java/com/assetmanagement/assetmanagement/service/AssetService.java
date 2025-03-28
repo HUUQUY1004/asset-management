@@ -107,4 +107,8 @@ public class AssetService {
     public Optional<Asset> getAssetById(Long id){
         return  assetRepository.findById(id);
     }
+
+    public List<Asset> getAllAssets() {
+        return assetRepository.findAll(); // Lấy danh sách tài sản
+    }
 }

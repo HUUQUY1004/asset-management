@@ -13,9 +13,9 @@ import java.util.List;
 public interface AssetRepository extends JpaRepository<Asset, Long> {
     List<Asset> findByStatus(String status);
 
-    @Query("select  a from Asset a ")
+    @Query("select  a from Asset a  where  a.isDeleted = false")
     List<Asset> getAll();
 
-    @Query("select a from Asset  a where  a.status like %:status% ")
+    @Query("select a from Asset  a where a.isDeleted = false AND  a.status  like %:status%  ")
     List<Asset> getAssetByStatus(@Param(("status")) String status);
 }

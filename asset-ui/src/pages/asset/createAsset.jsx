@@ -5,7 +5,7 @@ import { config } from "../../config";
 
 function CreateAsset() {
   const [name, setName] = useState("");
-  const [status, setStatus] = useState("in use");
+  const [status, setStatus] = useState("Đang sử dụng");
   const [location, setLocation] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [message, setMessage] = useState("");
