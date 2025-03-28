@@ -6,7 +6,7 @@ const MaintainAsset = () => {
     const [assets, setAssets] = useState([]);
     const [selectedAsset, setSelectedAsset] = useState(null);
     const [description, setDescription] = useState("");
-    const [status, setStatus] = useState("maintenance"); // Default "Đang bảo trì"
+    const [status, setStatus] = useState("Tất cả"); // Default "Đang bảo trì"
     const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Mới thêm: Quản lý trạng thái dropdown
 
     // Fetch assets from the backend
@@ -128,8 +128,8 @@ const MaintainAsset = () => {
                     value={status}
                     onChange={(e) => setStatus(e.target.value)}
                 >
-                    <option value="maintenance">Đang bảo trì</option>
-                    <option value="completed">Đã bảo trì</option>
+                    <option value="Đang sử dụng">Đang sử dụng</option>
+                    <option value="Bảo trì">Bảo trì</option>
                 </select>
             </div>
 

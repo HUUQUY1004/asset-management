@@ -50,5 +50,9 @@ export const routes = [
   {
     path: "/maintain-asset",
     Component: MaintainAsset,
-  }
+  },
+  {
+    path: "/create-maintenance",
+    Component: CreateMaintenance,
+  },
 ];
