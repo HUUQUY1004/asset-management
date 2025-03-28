@@ -1,7 +1,9 @@
 package com.assetmanagement.assetmanagement.controller;
 
+import com.assetmanagement.assetmanagement.dto.MaintenanceRequest;
 import com.assetmanagement.assetmanagement.dto.UpdateAssetRequets;
 import com.assetmanagement.assetmanagement.entity.Asset;
+import com.assetmanagement.assetmanagement.entity.AssetMaintenanceHistory;
 import com.assetmanagement.assetmanagement.repository.AssetRepository;
 import com.assetmanagement.assetmanagement.service.AssetService;
 import lombok.RequiredArgsConstructor;
@@ -25,11 +27,12 @@ public class AssetController {
     //user story 4
     @GetMapping("/status/{status}")
     public ResponseEntity<List<Asset>> getAssetsByStatus(@PathVariable String status) {
-        return ResponseEntity.ok(assetService.getAssetsByStatus(status));
+        return ResponseEntity.ok(assetRepository.findByStatus(status));
     }
-    @PostMapping("delete/{assetId}")
+    @DeleteMapping("delete/{assetId}")
     @PreAuthorize("hasAuthority('admin')")
     public ResponseEntity<String> deletedAsset(@PathVariable("assetId") Long assetId) {
+        System.out.println( "assetId"+ assetId);
         assetService.deleteAsset(assetId);
         return ResponseEntity.ok("Deleted asset " + assetId);
     }
@@ -51,6 +54,7 @@ public class AssetController {
             @PathVariable("status") String status
     ){
         System.out.println(status);
+        System.out.println("===========>");
         if("Tất cả".equals(status)){
             return ResponseEntity.ok(assetRepository.getAll());
         }
@@ -66,5 +70,10 @@ public class AssetController {
     }
 
 
+    @PostMapping("/maintenance")
+    public ResponseEntity<AssetMaintenanceHistory> recordMaintenance(@RequestBody MaintenanceRequest request) {
+        AssetMaintenanceHistory record = assetService.saveMaintenanceHistory(request);
+        return ResponseEntity.ok(record);
+    }
 
 }

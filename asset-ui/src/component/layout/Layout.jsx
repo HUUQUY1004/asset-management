@@ -13,7 +13,7 @@ const Layout = ({ children }) => {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Header */}
-      <Header user={user} />
+      <Header  />
       
       {/* Main content */}
       <main className="flex-grow">

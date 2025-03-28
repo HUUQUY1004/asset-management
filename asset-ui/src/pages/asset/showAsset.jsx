@@ -20,7 +20,6 @@ function ShowAsset() {
   const fetchAssets = async () => {
     setLoading(true);
     setError("");
-
     try {
       const response = await axios.get(`http://localhost:5000/manager/asset/get-all-asset/${statusFilter}`, config);
       setAssets(response.data);
@@ -37,7 +36,19 @@ function ShowAsset() {
     // navigate(`/assets/${asset.id}`)
     
   }
-
+  const removeAsset = async (assetId) => {
+    setLoading(true);
+    setError("");
+    try {
+      const response = await axios.delete(`http://localhost:5000/manager/asset/delete/${assetId}`, config);
+      fetchAssets()
+    } catch (err) {
+      console.log(err)
+      setError("Lỗi khi tải dữ liệu. Vui lòng thử lại!");
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="container">
       <h2 className="title">Danh sách tài sản</h2>
@@ -72,7 +83,7 @@ function ShowAsset() {
           </thead>
           <tbody>
             {assets.length > 0 ? (
-              assets.map((asset) => (
+              assets?.map((asset) => (
                 <tr key={asset.id}>
                   <td>{asset.name}</td>
                   <td>{asset.status}</td>
@@ -80,7 +91,9 @@ function ShowAsset() {
                   <td>{asset.quantity}</td>
                   <td className="flex gap-4">
                     <button onClick={()=>handleClick(asset)} className="edit-button bg-green-500 px-4 py-2 rounded-md">Sửa</button>
-                    <button className="delete-button bg-red-500 px-4 py-2 rounded-md">Xóa</button>
+                    <button onClick={() => {
+                      removeAsset(asset.id);
+                    }} className="delete-button bg-red-500 px-4 py-2 rounded-md">Xóa</button>
                   </td>
                 </tr>
               ))

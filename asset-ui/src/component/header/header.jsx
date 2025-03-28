@@ -1,16 +1,31 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { Bell, Menu, User, Search, LogOut, Settings, ChevronDown } from 'lucide-react';
+import axios from "axios";
+import {config, token} from "../../config";
 
-const Header = ({ user }) => {
+const Header = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  // Mock user data - replace with your actual auth system
-  const mockUser = user || {
-    name: 'Nguyễn Văn A',
-    role: 'Admin', // 'Admin', 'User', or 'Viewer'
-    department: 'IT'
+  const [user, setUser] = useState({});
+  const getInfo = async () => {
+    const  mockUser = null
+    try {
+      const {data} = await axios.get(`http://localhost:5000/user-accounts/info`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      });
+      setUser(data)
+    } catch (err) {
+
+    }
+
   };
-  
+  // Mock user data - replace with your actual auth system
+  useEffect(() => {
+    getInfo();
+  },[])
+
   return (
     <div className="bg-blue-600 text-white shadow-md">
       {/* Main header bar */}
@@ -57,7 +72,7 @@ const Header = ({ user }) => {
                   className="flex items-center max-w-xs text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-white"
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
                 >
-                  <span className="mr-2 hidden sm:block">{mockUser.name}</span>
+                  <span className="mr-2 hidden sm:block">{user.username}</span>
                   <div className="bg-blue-800 p-1 rounded-full">
                     <User size={24} className="text-blue-200" />
                   </div>
@@ -69,15 +84,15 @@ const Header = ({ user }) => {
               {isProfileOpen && (
                 <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 z-50">
                   <div className="px-4 py-2 text-blue-900 border-b">
-                    <p className="text-sm font-medium">{mockUser.name}</p>
-                    <p className="text-xs text-blue-600">Vai trò: {mockUser.role}</p>
-                    <p className="text-xs text-blue-600">Phòng ban: {mockUser.department}</p>
+                    <p className="text-sm font-medium">{user.name}</p>
+                    <p className="text-xs text-blue-600">Vai trò: {user.role}</p>
+                    {/*<p className="text-xs text-blue-600">Phòng ban: {mockUser.department}</p>*/}
                   </div>
                   <a href="#profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
                     <User size={16} className="mr-2" />
                     Hồ sơ
                   </a>
-                  {mockUser.role === 'Admin' && (
+                  {user?.role === 'ddmin' && (
                     <a href="#settings" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
                       <Settings size={16} className="mr-2" />
                       Cài đặt hệ thống
@@ -107,7 +122,7 @@ const Header = ({ user }) => {
             <a href="#maintenance" className="block px-3 py-2 rounded-md text-base font-medium text-blue-200 hover:text-white hover:bg-blue-800">
               Lịch bảo trì
             </a>
-            {mockUser.role === 'Admin' && (
+            {user?.role === 'admin' && (
               <a href="#users" className="block px-3 py-2 rounded-md text-base font-medium text-blue-200 hover:text-white hover:bg-blue-800">
                 Quản lý người dùng
               </a>
@@ -142,7 +157,7 @@ const Header = ({ user }) => {
             <a href="#maintenance" className="px-3 py-1 rounded-md text-sm font-medium text-blue-200 hover:text-white hover:bg-blue-800 ml-4">
               Lịch bảo trì
             </a>
-            {mockUser.role === 'Admin' && (
+            {user?.role === 'admin' && (
               <a href="#users" className="px-3 py-1 rounded-md text-sm font-medium text-blue-200 hover:text-white hover:bg-blue-800 ml-4">
                 Quản lý người dùng
               </a>
