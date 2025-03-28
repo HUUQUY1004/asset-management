@@ -4,15 +4,21 @@ import "./createMaintenance.css";
 
 function CreateMaintenanceSchedule() {
   const [assets, setAssets] = useState([]);
+  const [maintenanceSchedules, setMaintenanceSchedules] = useState([]);
   const [selectedAsset, setSelectedAsset] = useState("");
   const [frequency, setFrequency] = useState("daily");
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    // Load danh sách tài sản từ backend
+    // Load danh sách tài sản
     axios.get("http://localhost:5000/api/maintenance/assets")
       .then(response => setAssets(response.data))
       .catch(error => console.error("Lỗi khi tải danh sách tài sản:", error));
+
+    // Load danh sách lịch bảo trì
+    axios.get("http://localhost:5000/api/maintenance/all")
+      .then(response => setMaintenanceSchedules(response.data))
+      .catch(error => console.error("Lỗi khi tải danh sách bảo trì:", error));
   }, []);
 
   const handleSubmit = async (e) => {
@@ -23,8 +29,10 @@ function CreateMaintenanceSchedule() {
     
     try {
       const { data } = await axios.post("http://localhost:5000/api/maintenance/create", newSchedule);
-      console.log(data);
       setMessage("✅ Tạo lịch bảo trì thành công!");
+
+      // Cập nhật danh sách bảo trì sau khi thêm mới
+      setMaintenanceSchedules([...maintenanceSchedules, data]);
       setSelectedAsset("");
       setFrequency("daily");
     } catch (error) {
@@ -64,6 +72,27 @@ function CreateMaintenanceSchedule() {
 
         <button type="submit" className="submit-btn">Tạo Lịch</button>
       </form>
+
+      {/* Hiển thị danh sách bảo trì */}
+      <h2 className="title">Danh Sách Bảo Trì</h2>
+      <table className="schedule-table">
+        <thead>
+          <tr>
+            <th>Tài Sản</th>
+            <th>Tần Suất</th>
+            <th>Ngày Bảo Trì Tiếp Theo</th>
+          </tr>
+        </thead>
+        <tbody>
+          {maintenanceSchedules.map(schedule => (
+            <tr key={schedule.id}>
+              <td>{schedule.assetName}</td>
+              <td>{schedule.frequency}</td>
+              <td>{new Date(schedule.nextMaintenanceDate).toLocaleDateString()}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
