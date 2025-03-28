@@ -1,12 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import { Bell, Menu, User, Search, LogOut, Settings, ChevronDown } from 'lucide-react';
+import { Bell, Menu, User, Search, LogOut, Settings, ChevronDown, X } from 'lucide-react';
 import axios from "axios";
 import {config, token} from "../../config";
 
 const Header = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isNotifyOpen, setIsNotifyOpen] = useState(false);
+  const [notifications, setNotifications] = useState([]);
   const [user, setUser] = useState({});
+  const [loading, setLoading] = useState(false);
+
   const getInfo = async () => {
     const  mockUser = null
     try {
@@ -19,12 +23,32 @@ const Header = () => {
     } catch (err) {
 
     }
-
   };
+  const getNotify = async () => {
+    setLoading(true)
+    try {
+      const {data} = await axios.get(`http://localhost:5000/manager/notify/get-all`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      });
+      setNotifications(data);
+      console.log(data);
+    } catch (err) {
+        console.error("Lỗi fetch notify:", err);
+    } finally {
+      setLoading(false);
+    }
+  }
   // Mock user data - replace with your actual auth system
   useEffect(() => {
     getInfo();
   },[])
+
+  useEffect(() => {
+    getNotify();
+    console.log(notifications);
+  }, []);
 
   return (
     <div className="bg-blue-600 text-white shadow-md">
@@ -61,15 +85,15 @@ const Header = () => {
           {/* Right navigation items */}
           <div className="flex items-center">
             {/* Notifications */}
-            <button className="p-2 rounded-full text-blue-200 hover:text-white">
-              <Bell size={20} />
+            <button className="p-2 rounded-full text-blue-200 hover:text-white" onClick={() => setIsNotifyOpen(true)}>
+              <Bell size={20}/>
             </button>
-            
+
             {/* Profile dropdown */}
             <div className="ml-3 relative">
               <div>
                 <button
-                  className="flex items-center max-w-xs text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-white"
+                    className="flex items-center max-w-xs text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-white"
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
                 >
                   <span className="mr-2 hidden sm:block">{user.username}</span>
@@ -104,14 +128,72 @@ const Header = () => {
                   </a>
                 </div>
               )}
+
+              {/* Dialog Thông Báo */}
+              {isNotifyOpen && (
+                  <div className="fixed inset-0 flex items-center justify-center bg-black/50">
+                    <div className="w-[90%] max-w-md bg-white p-4 rounded-lg shadow-lg">
+                      <div className="flex justify-between items-center border-b pb-2">
+                        <h2 className="text-lg text-black font-semibold">Thông báo</h2>
+                        <button className="text-gray-500 hover:text-black" onClick={() => setIsNotifyOpen(false)}>
+                          <X size={20} />
+                        </button>
+                      </div>
+
+                      <div className="mt-4 max-h-[300px] overflow-y-auto">
+                        {loading ? (
+                            <p className="text-center text-gray-500">Đang tải...</p>
+                        ) : notifications.length === 0 ? (
+                            <p className="text-center text-gray-500">Không có thông báo nào</p>
+                        ) : (
+                            notifications.map((noti) => (
+                                <div key={noti.id} className="flex items-center justify-between border-b py-2">
+                                  <span className="text-black" >{noti.message}</span>
+                                  <div className="flex gap-2">
+                                    <button
+                                        className="px-2 py-1 bg-green-500 text-white rounded disabled:opacity-50"
+                                        disabled={loading}
+                                        onClick={async () => {
+                                          if (!noti.redirect) return;
+                                          setLoading(true);
+                                          try {
+                                            await axios.put(`http://localhost:5000/${noti.redirect}`, {}, {
+                                              headers: {
+                                                Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+                                              },
+                                            });
+                                            alert("Chấp nhận thành công!"); // Hoặc cập nhật lại danh sách thông báo
+                                          } catch (error) {
+                                            console.error("Lỗi khi gọi API:", error);
+                                            alert("Có lỗi xảy ra, vui lòng thử lại!");
+                                          } finally {
+                                            setLoading(false);
+                                          }
+                                        }}
+                                    >
+                                      {loading ? "Đang xử lý..." : "Chấp nhận"}
+                                    </button>
+
+                                    {/*onClick = {() => handleReject(noti.id)}*/}
+                                    <button className="px-2 py-1 bg-red-500 text-white rounded">
+                                      Từ chối
+                                    </button>
+                                  </div>
+                                </div>
+                            ))
+                        )}
+                      </div>
+                    </div>
+                  </div>
+              )}
             </div>
           </div>
         </div>
       </div>
-      
+
       {/* Mobile menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-blue-700">
+          <div className="md:hidden bg-blue-700">
           <div className="px-2 pt-2 pb-3 space-y-1">
             <a href="#dashboard" className="block px-3 py-2 rounded-md text-base font-medium text-white bg-blue-800">
               Trang chủ

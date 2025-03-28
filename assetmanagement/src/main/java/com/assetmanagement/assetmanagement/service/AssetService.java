@@ -112,4 +112,12 @@ public class AssetService {
     public List<Asset> getAllAssets() {
         return assetRepository.getAll(); // Lấy danh sách tài sản
     }
+
+    public boolean approveBorrow(Long id) {
+        Asset asset = assetRepository.findById(id).orElseThrow(() -> new RuntimeException("Asset not found"));
+        asset.setQuantity(asset.getQuantity() - 1);
+        asset.setLastUpdated(LocalDateTime.now());
+        assetRepository.save(asset);
+        return true;
+    }
 }
