@@ -23,7 +23,7 @@ function CreateAsset() {
       
       setMessage("✅ Tạo tài sản thành công!");
       setName("");
-      setStatus("in use");
+      setStatus("Đang sử dụng");
       setLocation("");
       setQuantity(1);
     } catch (error) {
