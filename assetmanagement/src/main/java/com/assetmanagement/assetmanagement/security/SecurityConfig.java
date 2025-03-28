@@ -31,7 +31,12 @@ public class SecurityConfig {
                                 "/api/auth/**",
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
-                                "/v3/api-docs.yaml"
+                                "/v3/api-docs.yaml",
+                                "/manager/asset/create",
+                                "/manager/asset/show",
+                                "/manager/asset/list",
+                                "/manager/asset/get-all-asset"
+
                         ).permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())

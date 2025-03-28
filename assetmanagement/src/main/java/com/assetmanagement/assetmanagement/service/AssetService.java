@@ -83,4 +83,8 @@ public class AssetService {
 
         return updatedAsset;
     }
+
+    public Optional<Asset> getAssetById(Long id){
+        return  assetRepository.findById(id);
+    }
 }
