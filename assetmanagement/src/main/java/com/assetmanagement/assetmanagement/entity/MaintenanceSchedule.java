@@ -53,4 +53,5 @@ public class MaintenanceSchedule {
     public void setNextMaintenanceDate(LocalDateTime nextMaintenanceDate) {
         this.nextMaintenanceDate = nextMaintenanceDate;
     }
+
 }

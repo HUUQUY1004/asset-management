@@ -45,6 +45,10 @@ export const routes = [
     Component: ManageAccount,
   },
   {
+    path: "/borrow-asset",
+    Component: BorrowRequest,
+  },
+  {
     path: "/maintain-asset",
     Component: MaintainAsset,
   }
