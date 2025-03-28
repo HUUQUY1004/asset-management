@@ -35,8 +35,9 @@ public class AssetController {
     }
 
     //user story 1
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<?> createAsset(@RequestBody Asset asset) {
+        System.out.println("asset" + asset);
         if (asset.getName() == null || asset.getName().trim().isEmpty()) {
             return ResponseEntity.badRequest().body("{\"message\": \"Tên tài sản không được để trống\"}");
         }
@@ -45,12 +46,21 @@ public class AssetController {
         return ResponseEntity.ok(savedAsset);
     }
 
-    @GetMapping("get-all-asset")
-    public ResponseEntity<List<Asset>> getAllAsset(){
-        return ResponseEntity.ok(assetRepository.getAll());
+    @GetMapping("get-all-asset/{status}")
+    public ResponseEntity<List<Asset>> getAllAsset(
+            @PathVariable("status") String status
+    ){
+        System.out.println(status);
+        if("Tất cả".equals(status)){
+            return ResponseEntity.ok(assetRepository.getAll());
+        }
+        else {
+            return  ResponseEntity.ok(assetRepository.getAssetByStatus(status));
+        }
     }
     @PutMapping("/{id}")
     public ResponseEntity<?> updateAsset(@PathVariable Long id, @RequestBody UpdateAssetRequets dto) {
+        System.out.println("dto" + dto.getQuantity());
         Asset updatedAsset = assetService.updateAsset(id, dto);
         return ResponseEntity.ok(updatedAsset);
     }

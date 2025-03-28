@@ -1,19 +1,17 @@
 import {useEffect, useState} from "react";
 import {useParams, useNavigate} from "react-router-dom";
 import axios from "axios";
+import { useAsset } from "../../store/useAsset";
+import { config } from "../../config";
 
 const EditAsset = () => {
     const {id} = useParams(); // Lấy ID từ URL
     const navigate = useNavigate();
     const [hoverSave, setHoverSave] = useState(false);
     const [hoverCancel, setHoverCancel] = useState(false);
-
-    const [asset, setAsset] = useState({
-        name: "",
-        status: "",
-        location: "",
-        quantity: 0,
-    });
+    const {asset} = useAsset()
+    
+    const [assetEdit, setAssetEdit] = useState(asset);
 
     // const [loading, setLoading] = useState(true);
     // const [error, setError] = useState("");
@@ -34,16 +32,18 @@ const EditAsset = () => {
     // Xử lý thay đổi input
     const handleChange = (e) => {
         const {name, value} = e.target;
-        setAsset({...asset, [name]: value});
+        setAssetEdit({...assetEdit, [name]: value});
     };
 
     // Xử lý cập nhật tài sản
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.put(`/manager/asset/${id}`, asset)
+        console.log(asset);
+        
+        axios.put(`http://localhost:5000/manager/asset/${asset.id}`, assetEdit, config)
             .then(() => {
                 alert("Cập nhật thành công!");
-                navigate("/assets"); // Quay lại danh sách tài sản
+                navigate("/show-asset"); // Quay lại danh sách tài sản
             })
             .catch(() => {
                 alert("Lỗi khi cập nhật tài sản");
@@ -63,14 +63,14 @@ const EditAsset = () => {
             boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)"
         }}>
             <h2 style={{textAlign: "center", color: "#333", fontSize: "30px", fontWeight: "bold",}}>Chỉnh sửa tài sản</h2>
-            <form onSubmit={handleSubmit} style={{display: "flex", flexDirection: "column"}}>
+            <form onSubmit={(e)=>handleSubmit(e)} style={{display: "flex", flexDirection: "column"}}>
                 <div style={{marginBottom: "15px"}}>
                     <label style={{fontWeight: "bold", display: "block", marginBottom: "5px"}}>Tên tài sản:</label>
                     <input
                         type="text"
                         name="name"
-                        value={asset.name}
-                        onChange={handleChange}
+                        value={assetEdit.name}
+                        onChange={(e) => handleChange(e)}
                         required
                         style={{width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "5px"}}
                     />
@@ -80,13 +80,13 @@ const EditAsset = () => {
                     <label style={{fontWeight: "bold", display: "block", marginBottom: "5px"}}>Trạng thái:</label>
                     <select
                         name="status"
-                        value={asset.status}
-                        onChange={handleChange}
+                        value={assetEdit.status}
+                        onChange={(e) => handleChange(e)}
                         style={{width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "5px"}}
                     >
-                        <option value="available">Có sẵn</option>
-                        <option value="in use">Đang sử dụng</option>
-                        <option value="damaged">Hỏng</option>
+                        <option value="Đang sử dụng">Đang sử dụng</option>
+                        <option value="Bảo trì">Bảo trì</option>
+                        <option value="Thanh ý">Thanh ý</option>
                     </select>
                 </div>
 
@@ -95,8 +95,8 @@ const EditAsset = () => {
                     <input
                         type="text"
                         name="location"
-                        value={asset.location}
-                        onChange={handleChange}
+                        value={assetEdit.location}
+                        onChange={(e) => handleChange(e)}
                         required
                         style={{width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "5px"}}
                     />
@@ -107,8 +107,8 @@ const EditAsset = () => {
                     <input
                         type="number"
                         name="quantity"
-                        value={asset.quantity}
-                        onChange={handleChange}
+                        value={assetEdit.quantity}
+                        onChange={(e)=>handleChange(e)}
                         required
                         style={{width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "5px"}}
                     />
@@ -134,7 +134,7 @@ const EditAsset = () => {
 
                     <button
                         type="button"
-                        onClick={() => navigate("/assets")}
+                        onClick={() => navigate("/show-asset")}
                         style={{
                             backgroundColor: hoverCancel ? "#532429" : "#dc3545", // Màu đậm hơn khi hover
                             color: "white",
