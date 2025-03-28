@@ -16,7 +16,9 @@ import java.util.List;
 public class MaintenanceScheduleController {
     @Autowired
     private MaintenanceScheduleService maintenanceService;
+    @Autowired
     private AssetService assetService;
+
 // user story 9: tao lich bao tri
     @PostMapping("/create")
     public MaintenanceSchedule createSchedule(@RequestBody MaintenanceSchedule schedule) {

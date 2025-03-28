@@ -18,12 +18,13 @@ public class UserAccountController {
     @GetMapping("/info")
     public ResponseEntity<UserAccountResponse> getUserAccount(Authentication authentication) {
         UserAccount userAccount = (UserAccount) authentication.getPrincipal();
-        return new ResponseEntity<>(UserAccountResponse.builder()
-                .id(userAccount.getId())
-                .username(userAccount.getUsername())
-                .role(userAccount.getRole())
-                .status(userAccount.getStatus())
-                .build(), HttpStatus.OK);
+
+        UserAccountResponse response = new UserAccountResponse();
+        response.setId(userAccount.getId());
+        response.setUsername(userAccount.getUsername());
+        response.setRole(userAccount.getRole());
+        response.setStatus(userAccount.getStatus());
+        return ResponseEntity.ok(response);
     }
 
     @Autowired

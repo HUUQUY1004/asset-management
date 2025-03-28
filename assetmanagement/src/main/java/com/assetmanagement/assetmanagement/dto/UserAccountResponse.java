@@ -13,6 +13,7 @@ public class UserAccountResponse {
     private String role;
     private String status;
 
+<<<<<<< HEAD
     // Constructor (private để bắt buộc sử dụng builder)
     private UserAccountResponse(Long id, String username, String role, String status) {
         this.id = id;
@@ -22,22 +23,49 @@ public class UserAccountResponse {
     }
 
     // Getters
+=======
+    public UserAccountResponse() {
+    }
+
+>>>>>>> 7a94d8d0386575cbcdb544b8a64504e606b00dbc
     public Long getId() {
         return id;
     }
 
+<<<<<<< HEAD
+=======
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+>>>>>>> 7a94d8d0386575cbcdb544b8a64504e606b00dbc
     public String getUsername() {
         return username;
     }
 
+<<<<<<< HEAD
+=======
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+>>>>>>> 7a94d8d0386575cbcdb544b8a64504e606b00dbc
     public String getRole() {
         return role;
     }
 
+<<<<<<< HEAD
+=======
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+>>>>>>> 7a94d8d0386575cbcdb544b8a64504e606b00dbc
     public String getStatus() {
         return status;
     }
 
+<<<<<<< HEAD
     // Phương thức builder()
     public static UserAccountResponseBuilder builder() {
         return new UserAccountResponseBuilder();
@@ -75,4 +103,10 @@ public class UserAccountResponse {
             return new UserAccountResponse(id, username, role, status);
         }
     }
+=======
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+>>>>>>> 7a94d8d0386575cbcdb544b8a64504e606b00dbc
 }
