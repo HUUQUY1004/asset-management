@@ -1,18 +1,30 @@
 package com.assetmanagement.assetmanagement.controller;
 
+import com.assetmanagement.assetmanagement.dto.UserAccountResponse;
 import com.assetmanagement.assetmanagement.entity.UserAccount;
 import com.assetmanagement.assetmanagement.service.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user-accounts")
 public class UserAccountController {
+
+    @GetMapping("/info")
+    public ResponseEntity<UserAccountResponse> getUserAccount(Authentication authentication) {
+        UserAccount userAccount = (UserAccount) authentication.getPrincipal();
+        return new ResponseEntity<>(UserAccountResponse.builder()
+                .id(userAccount.getId())
+                .username(userAccount.getUsername())
+                .role(userAccount.getRole())
+                .status(userAccount.getStatus())
+                .build(), HttpStatus.OK);
+    }
 
     @Autowired
     private UserAccountService userAccountService;
@@ -29,5 +41,10 @@ public class UserAccountController {
     public ResponseEntity<UserAccount> unlockUserAccount(@PathVariable Long id) {
         UserAccount unlockedUser = userAccountService.unlockUserAccount(id);
         return new ResponseEntity<>(unlockedUser, HttpStatus.OK);
+    }
+    @GetMapping("/getAllUserStatus")
+    public ResponseEntity<List<UserAccount>> getAllUserStatus() {
+        List<UserAccount> listUs = userAccountService.getAllUserAccounts();
+        return new ResponseEntity<>(listUs, HttpStatus.OK);
     }
 }
