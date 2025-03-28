@@ -89,6 +89,6 @@ public class AssetService {
     }
 
     public List<Asset> getAllAssets() {
-        return assetRepository.findAll(); // Lấy danh sách tài sản
+        return assetRepository.getAll(); // Lấy danh sách tài sản
     }
 }

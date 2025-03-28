@@ -42,7 +42,8 @@ export const routes = [
   {
     path: "/manage-account",
     Component: ManageAccount,
-  }
+  },
+  {
     path: "/borrow-asset",
     Component: BorrowRequest,
   },
