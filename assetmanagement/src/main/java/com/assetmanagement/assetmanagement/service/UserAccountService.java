@@ -16,14 +16,14 @@ public class UserAccountService {
     // Phương thức khóa tài khoản
     public UserAccount lockUserAccount(Long userId) {
         UserAccount user = userAccountRepository.findById(userId).orElseThrow(() -> new RuntimeException("Người dùng không tồn tại"));
-        user.setStatus("bị khóa");
+        user.setStatus("lock");
         return userAccountRepository.save(user);
     }
 
     // Phương thức mở khóa tài khoản
     public UserAccount unlockUserAccount(Long userId) {
         UserAccount user = userAccountRepository.findById(userId).orElseThrow(() -> new RuntimeException("Người dùng không tồn tại"));
-        user.setStatus("hoạt động");
+        user.setStatus("active");
         return userAccountRepository.save(user);
     }
     public List<UserAccount> getAllUserAccounts() {

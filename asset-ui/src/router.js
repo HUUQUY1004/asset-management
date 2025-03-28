@@ -6,6 +6,7 @@ import Login from "./pages/login/login";
 import Home from "./pages/home/home";
 import ShowAccount from "./pages/account/showAccount";
 import BorrowRequest from "./pages/borrow/request";
+import ManageAccount from "./pages/account/ManageAccount";
 
 export const routes = [
   {
@@ -35,5 +36,9 @@ export const routes = [
   {
     path: "/login",
     Component: Login,
+  },
+  {
+    path: "/manage-account",
+    Component: ManageAccount,
   }
 ];
