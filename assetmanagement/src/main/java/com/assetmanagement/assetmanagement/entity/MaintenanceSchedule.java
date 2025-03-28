@@ -53,4 +53,14 @@ public class MaintenanceSchedule {
     public void setNextMaintenanceDate(LocalDateTime nextMaintenanceDate) {
         this.nextMaintenanceDate = nextMaintenanceDate;
     }
+
+    @Override
+    public String toString() {
+        return "MaintenanceSchedule{" +
+                "id=" + id +
+                ", assetId=" + assetId +
+                ", frequency='" + frequency + '\'' +
+                ", nextMaintenanceDate=" + nextMaintenanceDate +
+                '}';
+    }
 }

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./createMaintenance.css"; 
+import { config } from "../../config";
 
 function CreateMaintenanceSchedule() {
   const [assets, setAssets] = useState([]);
@@ -11,7 +12,7 @@ function CreateMaintenanceSchedule() {
 
   useEffect(() => {
     // Load danh sách tài sản
-    axios.get("http://localhost:5000/api/maintenance/assets")
+    axios.get("http://localhost:5000/manager/asset/get-all-asset/Tất cả", config)
       .then(response => setAssets(response.data))
       .catch(error => console.error("Lỗi khi tải danh sách tài sản:", error));
 
@@ -28,7 +29,7 @@ function CreateMaintenanceSchedule() {
     const newSchedule = { assetId: selectedAsset, frequency };
     
     try {
-      const { data } = await axios.post("http://localhost:5000/api/maintenance/create", newSchedule);
+      const { data } = await axios.post("http://localhost:5000/manager/maintenance/create", newSchedule,config);
       setMessage("✅ Tạo lịch bảo trì thành công!");
 
       // Cập nhật danh sách bảo trì sau khi thêm mới

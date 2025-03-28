@@ -1,6 +1,6 @@
 package com.assetmanagement.assetmanagement.controller;
 
-import com.assetmanagement.assetmanagement.dto.UserAccountResponse;
+import com.assetmanagement.assetmanagement.DTO.UserAccountResponse;
 import com.assetmanagement.assetmanagement.entity.UserAccount;
 import com.assetmanagement.assetmanagement.service.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;

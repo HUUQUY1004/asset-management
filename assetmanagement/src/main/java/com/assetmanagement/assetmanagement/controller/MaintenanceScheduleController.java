@@ -19,6 +19,7 @@ public class MaintenanceScheduleController {
 // user story 9: tao lich bao tri
     @PostMapping("/create")
     public MaintenanceSchedule createSchedule(@RequestBody MaintenanceSchedule schedule) {
+        System.out.println(schedule);
         return maintenanceService.createSchedule(schedule);
     }
 // xem danh sach bao tri
