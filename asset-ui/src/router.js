@@ -7,6 +7,8 @@ import Home from "./pages/home/home";
 import ShowAccount from "./pages/account/showAccount";
 import BorrowRequest from "./pages/borrow/request";
 import ManageAccount from "./pages/account/ManageAccount";
+import CreateMaintenance from "./pages/maintenance/createMaintenance";
+
 
 export const routes = [
   {
@@ -41,4 +43,11 @@ export const routes = [
     path: "/manage-account",
     Component: ManageAccount,
   }
+    path: "/borrow-asset",
+    Component: BorrowRequest,
+  },
+  {
+    path: "/create-maintenance",
+    Component: CreateMaintenance,
+  },
 ];

@@ -3,6 +3,7 @@ package com.assetmanagement.assetmanagement.controller;
 import com.assetmanagement.assetmanagement.entity.Asset;
 import com.assetmanagement.assetmanagement.repository.NotifyRepository;
 import com.assetmanagement.assetmanagement.response.Response;
+import com.assetmanagement.assetmanagement.security.JwtService;
 import com.assetmanagement.assetmanagement.service.AssetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,10 +19,13 @@ public class BorrowController {
     private NotifyRepository notifyRepository;
     @Autowired
     private AssetService assetService;
+    @Autowired
+    private JwtService jwtService;
 
     @GetMapping("/{assetId}")
     public ResponseEntity<Response> borrowAsset(
-            @PathVariable("assetId") Long assetId
+            @PathVariable("assetId") Long assetId,
+            @RequestHeader("Authorization") String jwt
     ){
         Optional<Asset> assetOptional = assetService.getAssetById(assetId);
 
@@ -29,7 +33,7 @@ public class BorrowController {
             Asset asset = assetOptional.get(); // Lấy giá trị Asset từ Optional
             System.out.println("AssetId: " + assetId);
             System.out.println("Asset: " + asset.getName());
-
+            System.out.println("email" + jwtService.extractUserName(jwt));
             Response response = new Response();
             response.setMessage("Mượn tài sản thành công");
             response.setStatus(200);
