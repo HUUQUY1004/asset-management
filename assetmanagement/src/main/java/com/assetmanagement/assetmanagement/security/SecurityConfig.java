@@ -35,7 +35,12 @@ public class SecurityConfig {
                                 "/manager/asset/create",
                                 "/manager/asset/show",
                                 "/manager/asset/list",
+                                "/manager/maintenance/create",
+                                "/manager/maintenance/all",
+                                "/manager/maintenance/assets",
+
                                 "/manager/asset/get-all-asset"
+
 
                         ).permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")

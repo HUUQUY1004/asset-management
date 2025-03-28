@@ -55,6 +55,10 @@ function CreateMaintenanceSchedule() {
             <option value="daily">Hàng ngày</option>
             <option value="weekly">Hàng tuần</option>
             <option value="monthly">Hàng tháng</option>
+            <option value="quarterly">3 tháng 1 lần</option>
+            <option value="semi-annually">6 tháng 1 lần</option>
+            <option value="every-9-months">9 tháng 1 lần</option>
+            <option value="annually">1 năm 1 lần</option>
           </select>
         </div>
 
