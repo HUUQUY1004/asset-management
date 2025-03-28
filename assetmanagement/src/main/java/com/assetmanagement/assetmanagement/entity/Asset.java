@@ -25,6 +25,7 @@ public class Asset {
     private int quantity;
     private LocalDateTime lastUpdated;
     private boolean isDeleted = false;
+    private boolean verified = false;
 
     public boolean isDeleted() {
         return isDeleted;
@@ -80,5 +81,13 @@ public class Asset {
         this.lastUpdated = lastUpdated;
     }
     // Getters and Setters
+
+    public boolean isVerified() {
+        return verified;
+    }
+
+    public void setVerified(boolean verified) {
+        this.verified = verified;
+    }
 }
 
