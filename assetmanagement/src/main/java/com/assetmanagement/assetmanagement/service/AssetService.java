@@ -1,6 +1,7 @@
 package com.assetmanagement.assetmanagement.service;
 
-import com.assetmanagement.assetmanagement.dto.MaintenanceRequest;
+import com.assetmanagement.assetmanagement.DTO.MaintenanceRequest;
+import com.assetmanagement.assetmanagement.DTO.MaintenanceRequest;
 import com.assetmanagement.assetmanagement.dto.UpdateAssetRequets;
 import com.assetmanagement.assetmanagement.entity.Asset;
 import com.assetmanagement.assetmanagement.entity.AssetLog;

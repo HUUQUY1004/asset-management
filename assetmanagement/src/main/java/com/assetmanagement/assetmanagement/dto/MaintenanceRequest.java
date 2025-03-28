@@ -1,4 +1,4 @@
-package com.assetmanagement.assetmanagement.dto;
+package com.assetmanagement.assetmanagement.DTO;
 
 import java.time.LocalDateTime;
 

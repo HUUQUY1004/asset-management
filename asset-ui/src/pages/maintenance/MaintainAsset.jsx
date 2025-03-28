@@ -39,7 +39,14 @@ const MaintainAsset = () => {
                 status: status,
             }, config);
 
-            console.log("Bảo trì thành công", response.data);
+            console.log({
+                assetId: selectedAsset.id,
+                description: description,
+                status: status,
+            }, config);
+
+            
+            // console.log("Bảo trì thành công", response.data);
             alert("Bảo trì thành công!");
         } catch (error) {
             console.error("Có lỗi khi gọi API hoàn tất", error);
