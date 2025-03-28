@@ -11,15 +11,18 @@ function CreateMaintenanceSchedule() {
 
   useEffect(() => {
     // Load danh sách tài sản
-    axios.get("http://localhost:5000/api/maintenance/assets")
+    axios.get("http://localhost:5050/manager/maintenance/assets")
       .then(response => setAssets(response.data))
       .catch(error => console.error("Lỗi khi tải danh sách tài sản:", error));
 
     // Load danh sách lịch bảo trì
-    axios.get("http://localhost:5000/api/maintenance/all")
+    axios.get("http://localhost:5050/manager/maintenance/all")
+    
       .then(response => setMaintenanceSchedules(response.data))
       .catch(error => console.error("Lỗi khi tải danh sách bảo trì:", error));
-  }, []);
+
+  },
+   []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,7 +31,7 @@ function CreateMaintenanceSchedule() {
     const newSchedule = { assetId: selectedAsset, frequency };
     
     try {
-      const { data } = await axios.post("http://localhost:5000/api/maintenance/create", newSchedule);
+      const { data } = await axios.post("http://localhost:5050/manager/maintenance/create", newSchedule);
       setMessage("✅ Tạo lịch bảo trì thành công!");
 
       // Cập nhật danh sách bảo trì sau khi thêm mới
@@ -78,7 +81,7 @@ function CreateMaintenanceSchedule() {
       <table className="schedule-table">
         <thead>
           <tr>
-            <th>Tài Sản</th>
+            <th>ID Tài Sản</th>
             <th>Tần Suất</th>
             <th>Ngày Bảo Trì Tiếp Theo</th>
           </tr>
@@ -86,7 +89,7 @@ function CreateMaintenanceSchedule() {
         <tbody>
           {maintenanceSchedules.map(schedule => (
             <tr key={schedule.id}>
-              <td>{schedule.assetName}</td>
+              <td>{schedule.assetId}</td>
               <td>{schedule.frequency}</td>
               <td>{new Date(schedule.nextMaintenanceDate).toLocaleDateString()}</td>
             </tr>
