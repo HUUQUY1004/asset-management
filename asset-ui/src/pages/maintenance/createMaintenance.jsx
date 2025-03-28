@@ -17,7 +17,7 @@ function CreateMaintenanceSchedule() {
       .catch(error => console.error("Lỗi khi tải danh sách tài sản:", error));
 
     // Load danh sách lịch bảo trì
-    axios.get("http://localhost:5000/api/maintenance/all")
+    axios.get("http://localhost:5000/manager/maintenance/all", config)
       .then(response => setMaintenanceSchedules(response.data))
       .catch(error => console.error("Lỗi khi tải danh sách bảo trì:", error));
   }, []);
@@ -40,7 +40,8 @@ function CreateMaintenanceSchedule() {
       setMessage("❌ Lỗi khi tạo lịch bảo trì. Vui lòng thử lại!");
     }
   };
-
+  console.log(maintenanceSchedules);
+  
   return (
     <div className="container">
       <h2 className="title">Tạo Lịch Bảo Trì</h2>

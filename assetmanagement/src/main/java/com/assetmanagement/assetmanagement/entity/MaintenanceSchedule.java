@@ -21,6 +21,7 @@ public class MaintenanceSchedule {
     private String frequency; // daily, weekly, monthly
 
     private LocalDateTime nextMaintenanceDate;
+    private String assetName;
 
     public Long getId() {
         return id;

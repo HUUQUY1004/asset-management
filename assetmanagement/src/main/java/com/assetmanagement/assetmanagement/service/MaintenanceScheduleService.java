@@ -1,6 +1,6 @@
 package com.assetmanagement.assetmanagement.service;
 
-import com.assetmanagement.assetmanagement.entity.Asset;
+import com.assetmanagement.assetmanagement.DTO.MaintenanceScheduleDTO;
 import com.assetmanagement.assetmanagement.entity.MaintenanceSchedule;
 import com.assetmanagement.assetmanagement.repository.MaintenanceScheduleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +43,7 @@ public class MaintenanceScheduleService {
         return maintenanceScheduleRepository.save(schedule);
     }
 
-    public List<MaintenanceSchedule> getAllSchedules() {
-        return maintenanceScheduleRepository.findAll();
+    public List<MaintenanceScheduleDTO> getAllSchedules() {
+        return maintenanceScheduleRepository.getMaintenanceSchedule();
     }
 }

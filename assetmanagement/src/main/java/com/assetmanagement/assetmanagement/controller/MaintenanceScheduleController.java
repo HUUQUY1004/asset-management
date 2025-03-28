@@ -1,6 +1,7 @@
 package com.assetmanagement.assetmanagement.controller;
 
 
+import com.assetmanagement.assetmanagement.DTO.MaintenanceScheduleDTO;
 import com.assetmanagement.assetmanagement.entity.Asset;
 import com.assetmanagement.assetmanagement.entity.MaintenanceSchedule;
 import com.assetmanagement.assetmanagement.service.AssetService;
@@ -24,7 +25,7 @@ public class MaintenanceScheduleController {
     }
 // xem danh sach bao tri
     @GetMapping("/all")
-    public List<MaintenanceSchedule> getAllSchedules() {
+    public List<MaintenanceScheduleDTO> getAllSchedules() {
         return maintenanceService.getAllSchedules();
     }
 
