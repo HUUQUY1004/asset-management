@@ -38,7 +38,7 @@ public class BorrowController {
 
             Notify notify = new Notify();
             notify.setMessage(jwtService.extractUserName(jwt) + " muốn mượn tài sản " + asset.getName());
-            notify.setRedirect("/approve/asset/" + asset.getId());
+            notify.setRedirect("manager/asset/approve/" + asset.getId());
             notifyRepository.save(notify);
 
             Response response = new Response();

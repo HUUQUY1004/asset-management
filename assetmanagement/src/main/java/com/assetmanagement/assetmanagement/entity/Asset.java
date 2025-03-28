@@ -25,52 +25,49 @@ public class Asset {
     private int quantity;
     private LocalDateTime lastUpdated;
     private boolean isDeleted = false;
-    private boolean verified = false;
 
     public boolean isDeleted() {
         return isDeleted;
     }
 
-    public String getStatus() {
-        return status;
+    public Long getId() {
+        return id;
     }
 
-    public String getLocation() {
-        return location;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getLocation() {
+        return location;
     }
 
     public void setLocation(String location) {
         this.location = location;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
+
     public void setQuantity(int quantity) {
         this.quantity = quantity;
-    }
-
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
-    }
-
-    public Long getId() {
-        return id;
-    }
-    public String getName() {
-        return name;
-    }
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public LocalDateTime getLastUpdated() {
@@ -80,14 +77,9 @@ public class Asset {
     public void setLastUpdated(LocalDateTime lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
-    // Getters and Setters
 
-    public boolean isVerified() {
-        return verified;
-    }
-
-    public void setVerified(boolean verified) {
-        this.verified = verified;
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 }
 
