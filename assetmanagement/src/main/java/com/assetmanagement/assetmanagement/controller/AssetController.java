@@ -1,7 +1,9 @@
 package com.assetmanagement.assetmanagement.controller;
 
+import com.assetmanagement.assetmanagement.dto.MaintenanceRequest;
 import com.assetmanagement.assetmanagement.dto.UpdateAssetRequets;
 import com.assetmanagement.assetmanagement.entity.Asset;
+import com.assetmanagement.assetmanagement.entity.AssetMaintenanceHistory;
 import com.assetmanagement.assetmanagement.repository.AssetRepository;
 import com.assetmanagement.assetmanagement.service.AssetService;
 import lombok.RequiredArgsConstructor;
@@ -66,5 +68,10 @@ public class AssetController {
     }
 
 
+    @PostMapping("/maintenance")
+    public ResponseEntity<AssetMaintenanceHistory> recordMaintenance(@RequestBody MaintenanceRequest request) {
+        AssetMaintenanceHistory record = assetService.saveMaintenanceHistory(request);
+        return ResponseEntity.ok(record);
+    }
 
 }

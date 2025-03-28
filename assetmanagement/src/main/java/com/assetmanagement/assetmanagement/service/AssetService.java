@@ -1,10 +1,13 @@
 package com.assetmanagement.assetmanagement.service;
 
+import com.assetmanagement.assetmanagement.dto.MaintenanceRequest;
 import com.assetmanagement.assetmanagement.dto.UpdateAssetRequets;
 import com.assetmanagement.assetmanagement.entity.Asset;
 import com.assetmanagement.assetmanagement.entity.AssetLog;
+import com.assetmanagement.assetmanagement.entity.AssetMaintenanceHistory;
 import com.assetmanagement.assetmanagement.repository.AssetLogRepository;
 import com.assetmanagement.assetmanagement.repository.AssetRepository;
+import com.assetmanagement.assetmanagement.repository.MaintenanceHistory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContext;
@@ -24,6 +27,8 @@ public class AssetService {
     private AssetRepository assetRepository;
     @Autowired
     private AssetLogRepository assetLogRepository;
+    @Autowired
+    private MaintenanceHistory managementHistory;
 
     public void deleteAsset(Long id) {
         Asset asset = assetRepository.findById(id).orElseThrow(() -> new RuntimeException("Asset not found"));
@@ -82,6 +87,21 @@ public class AssetService {
         }
 
         return updatedAsset;
+    }
+
+    public AssetMaintenanceHistory saveMaintenanceHistory(MaintenanceRequest request) {
+        // Lấy tên người dùng từ SecurityContextHolder
+        SecurityContext context = SecurityContextHolder.getContext();
+        String performedBy = context.getAuthentication().getName();
+        // Tạo lịch sử bảo trì
+        AssetMaintenanceHistory record = new AssetMaintenanceHistory();
+        record.setAssetId(request.getAssetId());
+        record.setDescription(request.getDescription());
+        record.setStatus(request.getStatus());
+        record.setPerformedBy(performedBy);
+        record.setLastUpdated(LocalDateTime.now());
+
+        return managementHistory.save(record);
     }
 
     public Optional<Asset> getAssetById(Long id){
